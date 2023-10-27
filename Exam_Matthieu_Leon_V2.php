@@ -13,7 +13,7 @@ class Personnage {
     public function attaquer($cible) {
         $degats = $this->puissance;
         $cible->prendreDesDegats($degats);
-        echo $this->nom . " attaque " . $cible->nom . " pour " . $degats . " points de dégâts!\n";
+        echo "\n" .$this->nom . " attaque " . $cible->nom . " pour " . $degats . " points de dégâts!\n\n";
     }
 
     public function prendreDesDegats($degats) {
@@ -56,13 +56,13 @@ function afficherPersonnages($personnages) {
     }
 }
 
-// Création de 5 héros
+// Création de array des héros
 $heros = [];
-$heros[] = new Hero("Goku", 100, 200);
-$heros[] = new Hero("Vegeta", 90, 180);
-$heros[] = new Hero("Yamcha", 80, 160);
-$heros[] = new Hero("Gohan", 70, 140);
-$heros[] = new Hero("Piccolo", 60, 120);
+
+
+
+
+
 
 // Création de 5 méchants
 $mechants = [];
@@ -72,27 +72,71 @@ $mechants[] = new Villain("Buu", 80, 160);
 $mechants[] = new Villain("C17", 70, 140);
 $mechants[] = new Villain("C18", 60, 120);
 
-echo "Bienvenue dans le jeu de combat! Vous incarnez un héros. Choisissez votre personnage:\n";
-afficherPersonnages($heros);
+echo "Bienvenue dans le jeu de combat! Vous incarnez un héros. Choisissez votre personnage:\n\n";
+echo "1. Goku";
+echo "2. vegeta";
+echo "3. Yamcha";
+echo "4. Gohan";
+echo "5. Picolo";
 
 // Sélection du héros
 while (true) {
-    $choixHero = readline("Entrez le numéro de votre personnage: ");
-    if ($choixHero >= 1 && $choixHero <= count($heros)) {
-        $heroChoisi = $heros[$choixHero - 1];
-        echo "Vous avez choisi " . $heroChoisi->getNom() . ".\n";
-        break;
-    } else {
-        echo "Choix invalide. Veuillez entrer un numéro valide.\n";
+    $choixHero = readline("\nEntrez le numéro de votre personnage: ");
+
+    switch ($choixHero){
+
+        case '1':
+        {
+            $heros[] = new Hero("Goku", 100, 200);
+            $heroChoisi = $heros[$choixHero - 1];
+            echo "\nVous avez choisi " . $heroChoisi->getNom() . ".\n";
+            break 2;
+        }
+        case '2':
+        {
+            $heros[] = new Hero("Vegeta", 90, 180);
+            $heroChoisi = $heros[$choixHero - 2];
+            echo "\nVous avez choisi " . $heroChoisi->getNom() . ".\n";
+            break 2;
+    
+        }
+        case '3':
+        {
+            $heros[] = new Hero("Yamcha", 80, 160);
+            $heroChoisi = $heros[$choixHero - 3];
+            echo "\nVous avez choisi " . $heroChoisi->getNom() . ".\n";
+            break 2;
+        }
+        case '4':
+        {   
+            $heros[] = new Hero("Gohan", 70, 140);
+            $heroChoisi = $heros[$choixHero - 4];
+            echo "\nVous avez choisi " . $heroChoisi->getNom() . ".\n";
+            break 2;
+        }
+        case '5':
+        {
+            $heros[] = new Hero("Piccolo", 60, 120);
+            $heroChoisi = $heros[$choixHero - 5];
+            echo "\nVous avez choisi " . $heroChoisi->getNom() . ".\n";
+            break 2;
+        }
+        default:
+        {
+            echo "Choix invalide. Veuillez entrer un numéro valide.\n";
+            break;
+        }
+
+
     }
 }
 
-echo "Vous êtes prêt à combattre! Sélectionnez un méchant pour l'attaquer:\n";
+echo "\nVous êtes prêt à combattre! Sélectionnez un méchant pour l'attaquer:\n\n";
 afficherPersonnages($mechants);
 
 // Combat
 while (!empty($mechants) && $heroChoisi->estVivant()) {
-    $choixAttaque = readline("Entrez le numéro du méchant que vous souhaitez attaquer (ou 'q' pour quitter): ");
+    $choixAttaque = readline("\nEntrez le numéro du méchant que vous souhaitez attaquer (ou 'q' pour quitter): ");
     
 
     if ($choixAttaque === 'q') {
@@ -107,10 +151,16 @@ while (!empty($mechants) && $heroChoisi->estVivant()) {
         foreach ($mechants as $key => $mechant) {
             if (!$mechant->estVivant()) {
                 unset($mechants[$key]);
+
             }
         }
         
         afficherPersonnages($mechants);
+
+        $mechantCible->attaquer($heroChoisi);
+
+        afficherPersonnages($heros);
+        
 
     } else {
         echo "Choix invalide. Veuillez entrer un numéro valide.\n";
